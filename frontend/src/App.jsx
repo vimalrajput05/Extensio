@@ -1,20 +1,24 @@
-import Navbar from "./components/Navbar";
-import HeroSection from "./components/HeroSection";
-import HowItWorks from "./components/HowItWorks";
-import FeaturesSection from "./components/FeaturesSection";
-import ProFeatures from "./components/ProFeatures";
-import Footer from "./components/Footer";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import HomePage from "./pages/HomePage";
+import GenerateExtension from "./pages/GenerateExtension";
+import MyExtensions from "./pages/MyExtensions";
+import Analytics from "./pages/Analytics";
+import Settings from "./pages/Settings";
+import Dashboard from "./components/Dashboard";
+
 function App() {
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
-      <Navbar />
-            <HeroSection />
-<HowItWorks/>
-<FeaturesSection/>
-<ProFeatures/>
-<Footer/>
-      
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/generate" element={<GenerateExtension />} />
+        <Route path="/extensions" element={<MyExtensions />} />
+        <Route path="/analytics" element={<Analytics />} />
+        <Route path="/settings" element={<Settings />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

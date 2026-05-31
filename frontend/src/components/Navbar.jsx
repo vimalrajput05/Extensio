@@ -1,4 +1,7 @@
 import { animateScroll as scroll } from "react-scroll";
+import { Link } from "react-router-dom";
+
+
 function Navbar() {
   return (
 <nav className="sticky top-4 z-50 mx-auto w-[95%] rounded-2xl border border-white/10 bg-slate-950/70 shadow-[0_10px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">    
@@ -35,9 +38,16 @@ function Navbar() {
             Login
           </button>
 
-          <button className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02]">
-            Dashboard
-          </button>
+          
+    <Link
+      to="/dashboard"
+      className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02]"
+    >
+      Dashboard
+    </Link>
+  
+
+
         </div>
       </div>
     </nav>

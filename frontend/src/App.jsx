@@ -5,7 +5,7 @@ import GenerateExtension from "./pages/GenerateExtension";
 import MyExtensions from "./pages/MyExtensions";
 import Analytics from "./pages/Analytics";
 import Settings from "./pages/Settings";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (

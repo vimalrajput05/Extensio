@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import Navbar from "../components/Navbar";
 import HeroSection from "../components/HeroSection";
 import HowItWorks from "../components/HowItWorks";
@@ -14,6 +16,12 @@ function HomePage() {
       <FeaturesSection />
       <ProFeatures />
       <Footer />
+      <Link
+        to="/dashboard"
+        className="bg-blue-500 text-white px-4 py-2 rounded"
+      >
+        Go to Dashboard
+      </Link>
     </div>
   );
 }

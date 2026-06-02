@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Eye, EyeOff, Github, Mail } from "lucide-react";
-
 function AuthPage() {
   const [mode, setMode] = useState("login");
   const [showPassword, setShowPassword] = useState(false);

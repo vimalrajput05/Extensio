@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { motion } from "framer-motion";
 import {
   User,
@@ -159,10 +158,4 @@ function Settings() {
 }
 
 
-=======
-function Settings() {
-  return <h1>Settings Page</h1>;
-}
-
->>>>>>> fca4e6d (Initial local snapshot)
 export default Settings;

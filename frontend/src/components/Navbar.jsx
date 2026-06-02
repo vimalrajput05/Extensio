@@ -1,10 +1,7 @@
 import { animateScroll as scroll } from "react-scroll";
-<<<<<<< HEAD
 import { Link } from "react-router-dom";
 
 
-=======
->>>>>>> fca4e6d (Initial local snapshot)
 function Navbar() {
   return (
 <nav className="sticky top-4 z-50 mx-auto w-[95%] rounded-2xl border border-white/10 bg-slate-950/70 shadow-[0_10px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">    
@@ -37,11 +34,13 @@ function Navbar() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="rounded-xl border border-indigo-400/30 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:scale-[1.05] hover:bg-indigo-500/20 hover:border-indigo-400 hover:text-indigo-300 hover:shadow-[0_5px_20px_rgba(99,102,241,0.4)]">
+          <Link
+            to="/login"
+            className="rounded-xl border border-indigo-400/30 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:scale-[1.05] hover:bg-indigo-500/20 hover:border-indigo-400 hover:text-indigo-300 hover:shadow-[0_5px_20px_rgba(99,102,241,0.4)]"
+          >
             Login
-          </button>
+          </Link>
 
-<<<<<<< HEAD
           
     <Link
       to="/dashboard"
@@ -52,11 +51,6 @@ function Navbar() {
   
 
 
-=======
-          <button className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02]">
-            Dashboard
-          </button>
->>>>>>> fca4e6d (Initial local snapshot)
         </div>
       </div>
     </nav>

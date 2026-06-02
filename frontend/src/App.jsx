@@ -5,17 +5,17 @@ import GenerateExtension from "./pages/GenerateExtension";
 import MyExtensions from "./pages/MyExtensions";
 import Analytics from "./pages/Analytics";
 import Settings from "./pages/Settings";
-<<<<<<< HEAD
 import Dashboard from "./pages/Dashboard";
-=======
-import Dashboard from "./components/Dashboard";
->>>>>>> fca4e6d (Initial local snapshot)
+import Login from "./pages/Login";
+import AuthPage from "./pages/AuthPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/auth" element={<AuthPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/generate" element={<GenerateExtension />} />
         <Route path="/extensions" element={<MyExtensions />} />

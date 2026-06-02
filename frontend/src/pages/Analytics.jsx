@@ -1,14 +1,6 @@
-<<<<<<< HEAD
-import {ArrowLeft} from "lucide-react";
-
 import { motion } from "framer-motion";
-import {
-  TrendingUp,
-  Users,
-  Download,
-  Activity,
-} from "lucide-react";
-import Sidebar from "./Sidebar";
+import { TrendingUp, Users, Download, Activity } from "lucide-react";
+import Sidebar from "../Sidebar";
 
 import {
   LineChart,
@@ -18,7 +10,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   AreaChart,
-  Area,
+  Area
 } from "recharts";
 
 function Analytics() {
@@ -218,10 +210,6 @@ function Analytics() {
       </div>
     </div>
   );
-=======
-function Analytics() {
-  return <h1>Analytics Page</h1>;
->>>>>>> fca4e6d (Initial local snapshot)
 }
 
 export default Analytics;

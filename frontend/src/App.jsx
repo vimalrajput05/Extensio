@@ -5,7 +5,11 @@ import GenerateExtension from "./pages/GenerateExtension";
 import MyExtensions from "./pages/MyExtensions";
 import Analytics from "./pages/Analytics";
 import Settings from "./pages/Settings";
+<<<<<<< HEAD
 import Dashboard from "./pages/Dashboard";
+=======
+import Dashboard from "./components/Dashboard";
+>>>>>>> fca4e6d (Initial local snapshot)
 
 function App() {
   return (

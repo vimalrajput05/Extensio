@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {ArrowLeft} from "lucide-react";
 
 import { motion } from "framer-motion";
@@ -217,6 +218,10 @@ function Analytics() {
       </div>
     </div>
   );
+=======
+function Analytics() {
+  return <h1>Analytics Page</h1>;
+>>>>>>> fca4e6d (Initial local snapshot)
 }
 
 export default Analytics;

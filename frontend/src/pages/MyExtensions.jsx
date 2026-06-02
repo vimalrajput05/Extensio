@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { motion } from "framer-motion";
 import {
   Puzzle,
@@ -239,6 +240,10 @@ function MyExtensions() {
       </div>
     </div>
   );
+=======
+function MyExtensions() {
+  return <h1>My Extensions Page</h1>;
+>>>>>>> fca4e6d (Initial local snapshot)
 }
 
 export default MyExtensions;

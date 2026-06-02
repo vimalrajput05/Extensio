@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import { Link } from "react-router-dom";
 
+=======
+>>>>>>> fca4e6d (Initial local snapshot)
 import Navbar from "../components/Navbar";
 import HeroSection from "../components/HeroSection";
 import HowItWorks from "../components/HowItWorks";
@@ -16,7 +19,10 @@ function HomePage() {
       <FeaturesSection />
       <ProFeatures />
       <Footer />
+<<<<<<< HEAD
       
+=======
+>>>>>>> fca4e6d (Initial local snapshot)
     </div>
   );
 }

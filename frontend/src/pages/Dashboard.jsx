@@ -73,7 +73,7 @@ function Dashboard() {
         </motion.div>
 
         {/* Stats */}
-        <div className="mt-8 rounded-3xl border border-slate-800 bg-slate-900 p-6">
+        <div className="mt-8 rounded-3xl border border-slate-900 bg-slate-1000 p-10">
 
   <h2 className="text-2xl font-bold mb-5">
     Recent Activity
@@ -81,7 +81,7 @@ function Dashboard() {
 
   <div className="space-y-4">
 
-    <div className="flex justify-between border-b border-slate-800 pb-3">
+    <div className="flex justify-between border-b border-slate-700 pb-3">
       <span>Generated YouTube Focus Mode</span>
       <span className="text-green-400">Success</span>
     </div>
@@ -93,18 +93,18 @@ function Dashboard() {
 
     <div className="flex justify-between">
       <span>Generated Productivity Booster</span>
-      <span className="text-green-400">Success</span>
+      <span className="text-green-300">Success</span>
     </div>
 
   </div>
 
 </div>
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-12 md:grid-cols-10 xl:grid-cols-4">
           {stats.map((item) => (
             <motion.div
               key={item.title}
               whileHover={{ y: -8, scale: 1.03 }}
-              className="rounded-3xl border border-white/10 bg-slate-900 p-6"
+              className="rounded-3xl border border-white/12 bg-slate-900 p-6"
             >
               <div className="mb-4 text-indigo-400">
                 {item.icon}

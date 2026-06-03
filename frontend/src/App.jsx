@@ -10,6 +10,8 @@ import Login from "./pages/Login";
 import AuthPage from "./pages/AuthPage";
 
 function App() {
+
+  
   return (
     <BrowserRouter>
       <Routes>

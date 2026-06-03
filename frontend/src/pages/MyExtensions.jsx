@@ -1,14 +1,18 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   Puzzle,
   Download,
   Trash2,
   Eye,
   Search,
+  ArrowLeft,
 } from "lucide-react";
+
 import Sidebar from "./Sidebar";
 
 function MyExtensions() {
+  const navigate = useNavigate();
   const extensions = [
     {
       name: "YouTube Focus Mode",
@@ -47,6 +51,15 @@ function MyExtensions() {
       <Sidebar />
 
       <div className="relative flex-1 p-8">
+        <motion.button
+  whileHover={{ x: -5 }}
+  whileTap={{ scale: 0.95 }}
+  onClick={() => navigate("/dashboard")}
+  className="mb-6 flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 hover:bg-slate-800 transition"
+>
+  <ArrowLeft size={18} />
+  Back to Dashboard
+</motion.button>
 
         {/* Background Glow */}
         <div className="fixed left-20 top-20 h-72 w-72 rounded-full bg-indigo-500/10 blur-[120px]" />

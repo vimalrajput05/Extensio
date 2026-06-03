@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import {
   Sparkles,
@@ -8,8 +10,13 @@ import {
   Activity,
 } from "lucide-react";
 import Sidebar from "../Sidebar";
+import { useState } from "react";
+
+
 
 function Dashboard() {
+  const navigate = useNavigate();
+  const [leaving, setLeaving] = useState(false);
   const stats = [
     {
       title: "Extensions Generated",
@@ -38,6 +45,13 @@ function Dashboard() {
       <Sidebar />
 
       <div className="flex-1 p-8">
+        <button
+  onClick={() => navigate("/")}
+  className="mb-6 flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 hover:bg-slate-800 transition"
+>
+  <ArrowLeft size={18} />
+  Back
+</button>
 
         <motion.div
   whileHover={{
@@ -46,6 +60,7 @@ function Dashboard() {
   }}
   transition={{ type: "spring", stiffness: 300 }}
 >
+  
 <div className="relative overflow-hidden rounded-3xl border border-slate-800 bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-700 p-8 mb-8">
 
   <div className="absolute top-0 right-0 h-40 w-40 bg-white/10 rounded-full blur-3xl"></div>

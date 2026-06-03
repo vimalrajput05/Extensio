@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 import { TrendingUp, Users, Download, Activity } from "lucide-react";
 import Sidebar from "../Sidebar";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 
 import {
   LineChart,
@@ -14,6 +17,7 @@ import {
 } from "recharts";
 
 function Analytics() {
+  const navigate = useNavigate();
   const data = [
     { month: "Jan", users: 20, downloads: 15 },
     { month: "Feb", users: 40, downloads: 30 },
@@ -28,6 +32,18 @@ function Analytics() {
       <Sidebar />
 
       <div className="relative flex-1 p-8">
+        <motion.button
+  whileHover={{ x: -5 }}
+  whileTap={{ scale: 0.95 }}
+  onClick={() => {
+  document.body.style.opacity = "0.7";
+  setTimeout(() => navigate("/dashboard"), 250);
+}}
+  className="mb-6 flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 hover:bg-slate-800"
+>
+  <ArrowLeft size={18} />
+  Back to Dashboard
+</motion.button>
 
         {/* Background Glow */}
         <div className="fixed left-20 top-20 h-72 w-72 rounded-full bg-indigo-500/10 blur-[120px]" />

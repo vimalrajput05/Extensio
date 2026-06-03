@@ -1,0 +1,29 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import HomePage from "./pages/HomePage";
+import GenerateExtension from "./pages/GenerateExtension";
+import MyExtensions from "./pages/MyExtensions";
+import Analytics from "./pages/Analytics";
+import Settings from "./pages/Settings";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import AuthPage from "./pages/AuthPage";
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/generate" element={<GenerateExtension />} />
+        <Route path="/extensions" element={<MyExtensions />} />
+        <Route path="/analytics" element={<Analytics />} />
+        <Route path="/settings" element={<Settings />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;

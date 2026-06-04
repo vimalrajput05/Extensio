@@ -1,6 +1,5 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 function AuthPage() {
   const [mode, setMode] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
@@ -13,27 +12,25 @@ function AuthPage() {
     confirmPassword: "",
     remember: false,
   });
-
-  const navigate = useNavigate();
+const navigate = useNavigate();
   const isLogin = mode === "login";
-
   const handleSubmit = (event) => {
     event.preventDefault();
+
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       navigate("/dashboard");
     }, 1500);
   };
-
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
+  setFormData((prev) => ({
+    ...prev,
+    [name]: type === "checkbox" ? checked : value,
+  }));
+};
+  
   const passwordStrength = formData.password
     ? formData.password.length < 6
       ? "Weak"
@@ -263,7 +260,7 @@ function AuthPage() {
                   </div>
                 </div>
 
-                <p className="mt-8 text-center text-sm text-slate-500">
+                                <p className="mt-8 text-center text-sm text-slate-500">
                   {isLogin ? "New here?" : "Already have an account?"}{" "}
                   <button
                     type="button"
@@ -275,10 +272,14 @@ function AuthPage() {
                 </p>
 
                 <div className="mt-4 text-center">
-                  <Link to="/" className="text-sm text-slate-500 transition hover:text-slate-300">
+                  <Link
+                    to="/"
+                    className="text-sm text-slate-500 transition hover:text-slate-300"
+                  >
                     Back to home
                   </Link>
                 </div>
+
               </div>
             </main>
           </div>

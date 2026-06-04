@@ -10,9 +10,32 @@ import {
 import Sidebar from "./Sidebar";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function GenerateExtension() {
+  const [showFiles, setShowFiles] = useState(false);
+  const [loading, setLoading] = useState(false);
+const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
+  const handleGenerate = () => {
+  setLoading(true);
+  setProgress(0);
+
+  let value = 0;
+
+  const timer = setInterval(() => {
+    value += 20;
+    setProgress(value);
+
+    if (value >= 100) {
+  clearInterval(timer);
+
+  setTimeout(() => {
+    setShowFiles(true);
+  }, 800);
+}
+  }, 600);
+};
   return (
     <div className="flex min-h-screen bg-slate-950 text-white overflow-hidden">
       <Sidebar />
@@ -79,18 +102,39 @@ function GenerateExtension() {
                 placeholder="Create a Chrome extension that blocks YouTube Shorts, tracks productivity and generates weekly reports..."
               />
 
-              <motion.button
-                whileHover={{
-                  scale: 1.03,
-                  boxShadow:
-                    "0px 0px 40px rgba(99,102,241,0.5)",
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="mt-6 w-full rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 py-4 text-lg font-bold"
-              >
-                ✨ Generate Extension
-              </motion.button>
+<motion.button
+  onClick={handleGenerate}
+  whileHover={{ scale: 1.03 }}
+  whileTap={{ scale: 0.95 }}
+  className="mt-6 w-full rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 py-4 text-lg font-bold"
+>
+  ✨ Generate Extension
+</motion.button>
+{loading && (
+  <div className="mt-6">
+    <div className="mb-2 flex justify-between text-sm">
+      <span>Generating Extension...</span>
+      <span>{progress}%</span>
+    </div>
 
+    <div className="h-3 overflow-hidden rounded-full bg-slate-800">
+      <motion.div
+        initial={{ width: 0 }}
+        animate={{ width: `${progress}%` }}
+        className="h-full bg-gradient-to-r from-indigo-500 to-violet-500"
+      />
+    </div>
+
+    <div className="mt-4 text-sm text-slate-400">
+      {progress < 20 && "Analyzing Requirements..."}
+      {progress >= 20 && progress < 40 && "Generating Manifest..."}
+      {progress >= 40 && progress < 60 && "Creating Content Scripts..."}
+      {progress >= 60 && progress < 80 && "Building Popup UI..."}
+      {progress >= 80 && progress < 100 && "Packaging Extension..."}
+      {progress === 100 && "✅ Extension Generated Successfully"}
+    </div>
+  </div>
+)}
               {/* Templates */}
               <div className="mt-8">
                 <h3 className="mb-4 text-lg font-semibold">
@@ -167,10 +211,34 @@ function GenerateExtension() {
               animate={{ opacity: 1 }}
               className="mt-8 rounded-3xl border border-slate-800 bg-slate-900 p-6"
             >
-              <h2 className="mb-5 text-2xl font-bold">
-                Generated Structure Preview
-              </h2>
-
+{showFiles ? (
+  <div className="space-y-3">
+    {files.map((file, index) => (
+      <motion.div
+        key={file}
+        initial={{
+          opacity: 0,
+          x: -40,
+        }}
+        animate={{
+          opacity: 1,
+          x: 0,
+        }}
+        transition={{
+          delay: index * 0.2,
+        }}
+        className="flex items-center gap-3 rounded-xl bg-slate-800 p-3"
+      >
+        <FileCode size={18} />
+        {file}
+      </motion.div>
+    ))}
+  </div>
+) : (
+  <p className="text-slate-400">
+    Generate an extension to preview files...
+  </p>
+)}
               <div className="space-y-3">
                 {[
                   "manifest.json",
@@ -237,6 +305,8 @@ function GenerateExtension() {
         </div>
       </div>
     </div>
+  
+
   );
 }
 

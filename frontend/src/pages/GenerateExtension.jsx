@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function GenerateExtension() {
+  const [step, setStep] = useState("");
   const [showFiles, setShowFiles] = useState(false);
   const [loading, setLoading] = useState(false);
 const [progress, setProgress] = useState(0);
@@ -20,6 +21,7 @@ const [progress, setProgress] = useState(0);
   const handleGenerate = () => {
   setLoading(true);
   setProgress(0);
+  setShowFiles(false);
 
   let value = 0;
 
@@ -27,15 +29,30 @@ const [progress, setProgress] = useState(0);
     value += 20;
     setProgress(value);
 
-    if (value >= 100) {
-  clearInterval(timer);
+    if (value === 20)
+      setStep("🤖 Analyzing Requirements...");
 
-  setTimeout(() => {
-    setShowFiles(true);
+    if (value === 40)
+      setStep("📄 Creating manifest.json...");
+
+    if (value === 60)
+      setStep("⚙️ Generating Content Scripts...");
+
+    if (value === 80)
+      setStep("🎨 Building Popup UI...");
+
+    if (value >= 100) {
+      setStep("✅ Packaging Extension...");
+      clearInterval(timer);
+
+      setTimeout(() => {
+        setShowFiles(true);
+        setStep("🚀 Extension Generated Successfully!");
+      }, 1000);
+    }
   }, 800);
-}
-  }, 600);
 };
+
   return (
     <div className="flex min-h-screen bg-slate-950 text-white overflow-hidden">
       <Sidebar />
@@ -134,6 +151,17 @@ const [progress, setProgress] = useState(0);
       {progress === 100 && "✅ Extension Generated Successfully"}
     </div>
   </div>
+)}
+{loading && (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    className="mt-4 rounded-xl bg-slate-800 p-4"
+  >
+    <p className="text-indigo-400 font-medium">
+      {step}
+    </p>
+  </motion.div>
 )}
               {/* Templates */}
               <div className="mt-8">

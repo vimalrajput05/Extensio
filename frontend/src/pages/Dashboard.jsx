@@ -1,6 +1,7 @@
 ﻿import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
+import "../App.css";
 import {
   Sparkles,
   Users,
@@ -105,7 +106,7 @@ function Dashboard() {
         <motion.div
           whileHover={{ y: -10, scale: 1.03 }}
           transition={{ type: "spring", stiffness: 300 }}
-          className="relative overflow-hidden rounded-3xl border border-slate-800 bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-700 p-8 mb-8"
+          className="relative overflow-hidden rounded-3xl p-8 mb-8 glass-hero"
         >
           <div className="absolute top-0 right-0 h-40 w-40 bg-white/10 rounded-full blur-3xl"></div>
           <div className="fixed top-20 left-20 h-72 w-72 rounded-full bg-indigo-500/10 blur-[120px]" />
@@ -129,7 +130,7 @@ function Dashboard() {
             <motion.div
               key={item.title}
               whileHover={{ y: -8, scale: 1.03 }}
-              className="rounded-3xl border border-white/10 bg-slate-900 p-6"
+              className="rounded-3xl p-6 glass"
             >
               <div className="mb-4 text-indigo-400">{item.icon}</div>
               <h3 className="text-slate-400">{item.title}</h3>
@@ -142,7 +143,7 @@ function Dashboard() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-3xl border border-slate-800 bg-slate-900 p-6"
+            className="rounded-3xl p-6 glass"
           >
             <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div>
@@ -189,7 +190,7 @@ function Dashboard() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-3xl border border-slate-800 bg-slate-900 p-6"
+            className="rounded-3xl p-6 glass"
           >
             <h2 className="mb-6 text-xl font-bold">Downloads & Conversions</h2>
             <div className="h-80">
@@ -209,11 +210,11 @@ function Dashboard() {
         </div>
 
         <div className="mt-8 grid gap-6 xl:grid-cols-[1.4fr_0.6fr]">
-          <div className="rounded-3xl border border-slate-800 bg-slate-900 p-6">
+          <div className="rounded-3xl p-6 glass">
             <h2 className="mb-6 text-2xl font-bold">Insights</h2>
             <div className="grid gap-4">
               {insights.map((item) => (
-                <div key={item.title} className="rounded-3xl border border-slate-800 bg-slate-950/40 p-5">
+                <div key={item.title} className="rounded-3xl p-5 glass-soft">
                   <p className={`mb-2 text-sm font-semibold uppercase tracking-[0.2em] ${item.accent}`}>
                     Insight
                   </p>
@@ -224,16 +225,16 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-slate-800 bg-slate-900 p-6">
+          <div className="rounded-3xl p-6 glass">
             <h2 className="mb-6 text-2xl font-bold">Quick Wins</h2>
             <div className="space-y-4">
-              <div className="rounded-3xl bg-slate-950/40 p-4">
+              <div className="rounded-3xl p-4 glass-soft">
                 <p className="text-slate-400">Focus on extension templates with the highest repeat installs to boost conversion.</p>
               </div>
-              <div className="rounded-3xl bg-slate-950/40 p-4">
+              <div className="rounded-3xl p-4 glass-soft">
                 <p className="text-slate-400">Push a new onboarding flow for first-time creators to lift signups by 15%.</p>
               </div>
-              <div className="rounded-3xl bg-slate-950/40 p-4">
+              <div className="rounded-3xl p-4 glass-soft">
                 <p className="text-slate-400">Highlight the top-performing extension in the dashboard for faster user decisions.</p>
               </div>
             </div>

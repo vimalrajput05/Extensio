@@ -161,6 +161,57 @@
   }
 }
 
+/* Glassmorphism utilities used by dashboard */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 30px rgba(2, 6, 23, 0.6);
+  transition: transform 0.28s cubic-bezier(.2,.9,.2,1), box-shadow 0.28s;
+}
+.glass:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(2, 6, 23, 0.7);
+}
+.glass-soft {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.glass-hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(124,58,237,0.18), rgba(99,102,241,0.12) 30%, rgba(99,102,241,0.06));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.glass-hero::before {
+  content: '';
+  position: absolute;
+  inset: -30%;
+  background: radial-gradient(circle at 20% 20%, rgba(99,102,241,0.12), transparent 18%), radial-gradient(circle at 80% 80%, rgba(168,85,247,0.08), transparent 18%);
+  animation: heroShift 12s linear infinite;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+@keyframes heroShift {
+  0% { transform: translateX(0) translateY(0) scale(1); }
+  50% { transform: translateX(-6%) translateY(4%) scale(1.03); }
+  100% { transform: translateX(0) translateY(0) scale(1); }
+}
+
+@keyframes glassPulse {
+  0% { box-shadow: 0 6px 20px rgba(2,6,23,0.45); }
+  50% { box-shadow: 0 10px 40px rgba(2,6,23,0.55); }
+  100% { box-shadow: 0 6px 20px rgba(2,6,23,0.45); }
+}
+
 .ticks {
   position: relative;
   width: 100%;

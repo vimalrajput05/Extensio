@@ -15,9 +15,18 @@ import { useState } from "react";
 function GenerateExtension() {
   const [step, setStep] = useState("");
   const [showFiles, setShowFiles] = useState(false);
+  const files = [
+  "manifest.json",
+  "background.js",
+  "content.js",
+  "popup.html",
+  "popup.css",
+  "popup.js",
+];
   const [loading, setLoading] = useState(false);
 const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
+
   const handleGenerate = () => {
   setLoading(true);
   setProgress(0);
@@ -96,6 +105,28 @@ const [progress, setProgress] = useState(0);
             scripts, manifests and UI automatically.
           </p>
         </motion.div>
+        <div className="mt-4 flex gap-3">
+  <span className="rounded-full bg-green-500/20 px-4 py-2 text-green-400">
+    Beginner Friendly
+  </span>
+
+  <span className="rounded-full bg-indigo-500/20 px-4 py-2 text-indigo-400">
+    AI Powered
+  </span>
+</div>
+<div className="mt-4 flex flex-wrap gap-3">
+  <div className="rounded-xl bg-slate-800 px-4 py-3">
+    ⚡ Estimated Time: 5 Seconds
+  </div>
+
+  <div className="rounded-xl bg-slate-800 px-4 py-3">
+    📦 Output: 6 Files
+  </div>
+
+  <div className="rounded-xl bg-slate-800 px-4 py-3">
+    🔒 Manifest V3 Ready
+  </div>
+</div>
 
         {/* Main Grid */}
         <div className="grid gap-6 lg:grid-cols-3">
@@ -163,7 +194,65 @@ const [progress, setProgress] = useState(0);
     </p>
   </motion.div>
 )}
-              {/* Templates */}
+
+        {progress === 100 && (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    className="mt-4 rounded-2xl border border-green-500/20 bg-green-500/10 p-4"
+  >
+    <h3 className="font-semibold text-green-400">
+      AI Confidence Score
+    </h3>
+
+    <p className="mt-2 text-3xl font-bold">
+      96%
+    </p>
+  </motion.div>
+)}  
+{showFiles && (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="mt-4 grid gap-4 md:grid-cols-3"
+  >
+    <div className="rounded-2xl bg-slate-800 p-4">
+      <p className="text-slate-400 text-sm">
+        Generation Time
+      </p>
+
+      <h3 className="mt-2 text-2xl font-bold text-indigo-400">
+        4.8s
+      </h3>
+    </div>
+
+    <div className="rounded-2xl bg-slate-800 p-4">
+      <p className="text-slate-400 text-sm">
+        Files Created
+      </p>
+
+      <h3 className="mt-2 text-2xl font-bold text-green-400">
+        6
+      </h3>
+    </div>
+
+    <div className="rounded-2xl bg-slate-800 p-4">
+      <p className="text-slate-400 text-sm">
+        Compatibility
+      </p>
+
+      <h3 className="mt-2 text-2xl font-bold text-violet-400">
+        MV3
+      </h3>
+    </div>
+  </motion.div>
+)}   
+{showFiles && (
+  <button className="mt-4 w-full rounded-2xl bg-green-600 py-4 font-bold hover:bg-green-500 transition">
+    📦 Download Extension ZIP
+  </button>
+)}
+ {/* Templates */}
               <div className="mt-8">
                 <h3 className="mb-4 text-lg font-semibold">
                   Popular Templates

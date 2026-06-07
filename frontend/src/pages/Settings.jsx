@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 
 function Settings() {
     const navigate = useNavigate();
-  
   return (
     <div className="flex min-h-screen bg-slate-950 text-white overflow-hidden">
       <Sidebar />
@@ -144,6 +143,7 @@ function Settings() {
                 Preferences
               </h2>
             </div>
+            
 
             <select className="mb-4 w-full rounded-xl border border-slate-700 bg-slate-800 p-4 outline-none">
               <option>Dark Theme</option>
@@ -172,6 +172,7 @@ function Settings() {
 
       </div>
     </div>
+    
   );
 }
 

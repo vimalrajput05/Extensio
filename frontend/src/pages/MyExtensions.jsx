@@ -82,6 +82,20 @@ function MyExtensions() {
             Manage, monitor and download all your AI generated
             Chrome extensions.
           </p>
+                  <div className="mt-5 flex flex-wrap gap-3">
+  <span className="rounded-full bg-green-500/20 px-4 py-2 text-green-400">
+    24 Extensions
+  </span>
+
+  <span className="rounded-full bg-indigo-500/20 px-4 py-2 text-indigo-400">
+    156 Downloads
+  </span>
+
+  <span className="rounded-full bg-violet-500/20 px-4 py-2 text-violet-400">
+    98% Success Rate
+  </span>
+</div>
+
         </motion.div>
 
         {/* Stats */}
@@ -163,8 +177,7 @@ function MyExtensions() {
                 y: -12,
                 scale: 1.03,
               }}
-              className="group relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-900 p-6"
-            >
+           className="rounded-3xl border border-slate-800 bg-slate-900 p-6 flex flex-col justify-center min-h-[150px]" >
               {/* Glow */}
               <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-violet-500/10 to-pink-500/10 opacity-0 blur-3xl transition-all duration-500 group-hover:opacity-100"></div>
 
@@ -185,16 +198,26 @@ function MyExtensions() {
                   </span>
 
                 </div>
+<h2 className="text-xl font-bold">
+  {extension.name}
+</h2>
 
-                {/* Content */}
-                <h2 className="text-xl font-bold">
-                  {extension.name}
-                </h2>
+<div className="mt-2 flex gap-2">
+  <span className="rounded-full bg-indigo-500/20 px-2 py-1 text-xs text-indigo-400">
+    Productivity
+  </span>
 
-                <p className="mt-3 text-sm text-slate-400">
-                  {extension.description}
-                </p>
+  <span className="rounded-full bg-green-500/20 px-2 py-1 text-xs text-green-400">
+    AI Powered
+  </span>
+</div>
 
+<p className="mt-3 text-sm text-slate-400">
+  {extension.description}
+</p>
+<span className="rounded-full bg-indigo-500/20 px-2 py-1 text-xs text-indigo-400">
+  {extension.category}
+</span>
                 {/* Progress */}
                 <div className="mt-5">
 

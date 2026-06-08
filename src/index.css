@@ -1,0 +1,106 @@
+@import "tailwindcss";
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  color-scheme: dark;
+  --bg-color: #020617;
+  --surface: rgba(15, 23, 42, 0.95);
+  --surface-soft: rgba(15, 23, 42, 0.8);
+  --text-color: #ffffff;
+  --muted-color: #94a3b8;
+  --border-color: rgba(148, 163, 184, 0.18);
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+body.theme-light {
+  color-scheme: light;
+  --bg-color: #f8fafc;
+  --surface: rgba(255, 255, 255, 0.95);
+  --surface-soft: rgba(248, 250, 252, 0.9);
+  --text-color: #0f172a;
+  --muted-color: #475569;
+  --border-color: rgba(148, 163, 184, 0.35);
+}
+
+body.theme-light .bg-slate-950 {
+  background-color: #f8fafc !important;
+}
+
+body.theme-light .bg-slate-900 {
+  background-color: #e2e8f0 !important;
+}
+
+body.theme-light .bg-slate-800 {
+  background-color: #cbd5e1 !important;
+}
+
+body.theme-light .bg-slate-700 {
+  background-color: #94a3b8 !important;
+}
+
+body.theme-light .bg-black {
+  background-color: #f8fafc !important;
+}
+
+body.theme-light .bg-white\/5 {
+  background-color: rgba(15, 23, 42, 0.06) !important;
+}
+
+body.theme-light .bg-white\/10 {
+  background-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+body.theme-light .text-white {
+  color: #0f172a !important;
+}
+
+body.theme-light .text-slate-300 {
+  color: #475569 !important;
+}
+
+body.theme-light .text-slate-400 {
+  color: #64748b !important;
+}
+
+body.theme-light .text-slate-500 {
+  color: #64748b !important;
+}
+
+body.theme-light .text-indigo-100 {
+  color: #4338ca !important;
+}
+
+body.theme-light .border-slate-800 {
+  border-color: #cbd5e1 !important;
+}
+
+body.theme-light .border-slate-700 {
+  border-color: #cbd5e1 !important;
+}
+
+body.theme-light .border-white\/10 {
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+body.theme-light .hover\:bg-slate-900:hover {
+  background-color: #e2e8f0 !important;
+}
+
+body.theme-light .hover\:bg-slate-800:hover {
+  background-color: #d1d5db !important;
+}
+
+body.theme-light .hover\:bg-slate-700:hover {
+  background-color: #cbd5e1 !important;
+}
+
+body.theme-light .hover\:text-white:hover {
+  color: #0f172a !important;
+}

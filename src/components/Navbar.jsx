@@ -1,8 +1,12 @@
+import { useContext } from "react";
 import { animateScroll as scroll } from "react-scroll";
 import { Link } from "react-router-dom";
+import { Moon, Sun } from "lucide-react";
+import { ThemeContext } from "../ThemeContext";
 
 
 function Navbar() {
+  const { theme, setTheme } = useContext(ThemeContext);
   return (
 <nav className="sticky top-4 z-50 mx-auto w-[95%] rounded-2xl border border-white/10 bg-slate-950/70 shadow-[0_10px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">    
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
@@ -34,6 +38,15 @@ function Navbar() {
         </div>
 
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="inline-flex items-center gap-2 rounded-xl border border-indigo-400/20 bg-slate-900/80 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+            {theme === "dark" ? "Light" : "Dark"}
+          </button>
+
           <Link
             to="/login"
             className="rounded-xl border border-indigo-400/30 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:scale-[1.05] hover:bg-indigo-500/20 hover:border-indigo-400 hover:text-indigo-300 hover:shadow-[0_5px_20px_rgba(99,102,241,0.4)]"
@@ -41,16 +54,12 @@ function Navbar() {
             Login
           </Link>
 
-          
-    <Link
-      to="/dashboard"
-      className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02]"
-    >
-      Dashboard
-    </Link>
-  
-
-
+          <Link
+            to="/dashboard"
+            className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02]"
+          >
+            Dashboard
+          </Link>
         </div>
       </div>
     </nav>

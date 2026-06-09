@@ -9,12 +9,14 @@ import {
 } from "lucide-react";
 import Sidebar from "./Sidebar";
 import { ArrowLeft } from "lucide-react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { ThemeContext } from "../ThemeContext";
 
 
 function Settings() {
-    const navigate = useNavigate();
-  
+  const navigate = useNavigate();
+  const { theme, setTheme } = useContext(ThemeContext);
   return (
     <div className="flex min-h-screen bg-slate-950 text-white overflow-hidden">
       <Sidebar />
@@ -144,10 +146,15 @@ function Settings() {
                 Preferences
               </h2>
             </div>
+            
 
-            <select className="mb-4 w-full rounded-xl border border-slate-700 bg-slate-800 p-4 outline-none">
-              <option>Dark Theme</option>
-              <option>Light Theme</option>
+            <select
+              value={theme}
+              onChange={(event) => setTheme(event.target.value)}
+              className="mb-4 w-full rounded-xl border border-slate-700 bg-slate-800 p-4 outline-none"
+            >
+              <option value="dark">Dark Theme</option>
+              <option value="light">Light Theme</option>
             </select>
 
             <div className="flex items-center gap-3 rounded-xl bg-slate-800 p-4">
@@ -172,6 +179,7 @@ function Settings() {
 
       </div>
     </div>
+    
   );
 }
 

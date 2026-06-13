@@ -1,19 +1,8 @@
-const express = require('express');
-const path = require('path');
+const app = require('./src/app');
+const env = require('./src/config/env');
 
-const app = express();
-
-// Basic middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Health check
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'ok' });
+app.listen(env.port, () => {
+  console.log(`Backend listening on port ${env.port}`);
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Backend listening on port ${PORT}`);
-});
 

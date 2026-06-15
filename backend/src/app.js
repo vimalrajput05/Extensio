@@ -1,22 +1,33 @@
-const express = require('express');
+require('dotenv').config()
 
-const { health } = require('./controllers/healthController');
-const apiRoutes = require('./routes');
-const { notFound, errorHandler } = require('./middleware/errorHandler');
+const express = require('express')
+const mongoose = require('mongoose')
+const cors = require('cors')
 
-const app = express();
+const { PORT, MONGO_URI, FRONTEND_URL } = require('./config/env')
+const extensionRoutes = require('./routes/extensionRoutes')
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+const app = express()
 
-// Legacy health route (kept for compatibility)
-app.get('/health', health);
+app.use(express.json())
 
-// API routes
-app.use('/api', apiRoutes);
+app.use(cors({ origin: FRONTEND_URL, credentials: true }))
 
-app.use(notFound);
-app.use(errorHandler);
+app.use('/api/extensions', extensionRoutes)
 
-module.exports = app;
+async function startServer() {
+  try {
+    await mongoose.connect(MONGO_URI)
+    console.log('MongoDB connected successfully')
+
+    app.listen(PORT, () => console.log('Server running on port ' + PORT))
+  } catch (error) {
+    console.error('Startup error:', error.message)
+    process.exit(1)
+  }
+}
+
+startServer()
+
+module.exports = app
 

@@ -6,61 +6,93 @@ import {
   ShieldCheck,
   FileCode,
   Lightbulb,
+  ArrowLeft,
 } from "lucide-react";
 import Sidebar from "./Sidebar";
-import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
+import { API_BASE, TOKEN_KEY } from "../config/api";
+
 function GenerateExtension() {
   const [step, setStep] = useState("");
-  const [showFiles, setShowFiles] = useState(false);
-  const files = [
-  "manifest.json",
-  "background.js",
-  "content.js",
-  "popup.html",
-  "popup.css",
-  "popup.js",
-];
   const [loading, setLoading] = useState(false);
-const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [showFiles, setShowFiles] = useState(false);
+  const [files, setFiles] = useState([]);
+
+  const [downloadUrl, setDownloadUrl] = useState('');
+
   const navigate = useNavigate();
 
-  const handleGenerate = () => {
-  setLoading(true);
-  setProgress(0);
-  setShowFiles(false);
-
-  let value = 0;
-
-  const timer = setInterval(() => {
-    value += 20;
-    setProgress(value);
-
-    if (value === 20)
-      setStep("🤖 Analyzing Requirements...");
-
-    if (value === 40)
-      setStep("📄 Creating manifest.json...");
-
-    if (value === 60)
-      setStep("⚙️ Generating Content Scripts...");
-
-    if (value === 80)
-      setStep("🎨 Building Popup UI...");
-
-    if (value >= 100) {
-      setStep("✅ Packaging Extension...");
-      clearInterval(timer);
-
-      setTimeout(() => {
-        setShowFiles(true);
-        setStep("🚀 Extension Generated Successfully!");
-      }, 1000);
+  const handleGenerate = async () => {
+    const token = localStorage.getItem(TOKEN_KEY) || '';
+    if (!token) {
+      navigate('/login', { replace: true });
+      return;
     }
-  }, 800);
-};
+
+    const promptEl = document.querySelector('textarea');
+    const prompt = promptEl?.value || '';
+
+    if (!prompt || !prompt.trim()) {
+      alert('Please enter your extension idea');
+      return;
+    }
+
+    setLoading(true);
+    setProgress(0);
+    setShowFiles(false);
+    setFiles([]);
+    setDownloadUrl('');
+
+    let timer = null;
+    let value = 0;
+
+    timer = setInterval(() => {
+      value += 20;
+      setProgress(value);
+
+      if (value === 20) setStep('🤖 Analyzing Requirements...');
+      if (value === 40) setStep('📄 Creating manifest.json...');
+      if (value === 60) setStep('⚙️ Generating Content Scripts...');
+      if (value === 80) setStep('🎨 Building Popup UI...');
+    }, 800);
+
+    try {
+      const res = await fetch(`${API_BASE}/api/extensions/generate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ prompt, title: 'Untitled Extension' }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data?.success) {
+        throw new Error(data?.error || 'Generate failed');
+      }
+
+      setProgress(100);
+      setStep('✅ Extension Generated Successfully!');
+
+      // Response contains:
+      // files: [{filename, content}]
+      // downloadUrl: '/api/extensions/download/<id>'
+      setFiles(data.files || []);
+      setDownloadUrl(data.downloadUrl || '');
+      setShowFiles(true);
+    } catch (e) {
+      setStep('❌ Failed to generate extension');
+      alert(e.message || 'Failed to generate');
+    } finally {
+      if (timer) clearInterval(timer);
+      setLoading(false);
+    }
+  };
+
+  const previewNames = files.map((f) => f?.filename).filter(Boolean);
 
   return (
     <div className="flex min-h-screen bg-slate-950 text-white overflow-hidden">
@@ -68,23 +100,21 @@ const [progress, setProgress] = useState(0);
 
       <div className="relative flex-1 p-8">
         <motion.button
-  whileHover={{ x: -5 }}
-  whileTap={{ scale: 0.95 }}
-  onClick={() => {
-  document.body.style.opacity = "0.7";
-  setTimeout(() => navigate("/dashboard"), 250);
-}}
-  className="mb-6 flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 hover:bg-slate-800"
->
-  <ArrowLeft size={18} />
-  Back to Dashboard
-</motion.button>
+          whileHover={{ x: -5 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            document.body.style.opacity = "0.7";
+            setTimeout(() => navigate("/dashboard"), 250);
+          }}
+          className="mb-6 flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-4 py-2 hover:bg-slate-800"
+        >
+          <ArrowLeft size={18} />
+          Back to Dashboard
+        </motion.button>
 
-        {/* Background Glow */}
         <div className="fixed left-20 top-20 h-72 w-72 rounded-full bg-indigo-500/10 blur-[120px]" />
         <div className="fixed right-20 bottom-20 h-72 w-72 rounded-full bg-violet-500/10 blur-[120px]" />
 
-        {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -105,35 +135,25 @@ const [progress, setProgress] = useState(0);
             scripts, manifests and UI automatically.
           </p>
         </motion.div>
+
         <div className="mt-4 flex gap-3">
-  <span className="rounded-full bg-green-500/20 px-4 py-2 text-green-400">
-    Beginner Friendly
-  </span>
+          <span className="rounded-full bg-green-500/20 px-4 py-2 text-green-400">
+            Beginner Friendly
+          </span>
 
-  <span className="rounded-full bg-indigo-500/20 px-4 py-2 text-indigo-400">
-    AI Powered
-  </span>
-</div>
-<div className="mt-4 flex flex-wrap gap-3">
-  <div className="rounded-xl bg-slate-800 px-4 py-3">
-    ⚡ Estimated Time: 5 Seconds
-  </div>
+          <span className="rounded-full bg-indigo-500/20 px-4 py-2 text-indigo-400">
+            AI Powered
+          </span>
+        </div>
 
-  <div className="rounded-xl bg-slate-800 px-4 py-3">
-    📦 Output: 6 Files
-  </div>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <div className="rounded-xl bg-slate-800 px-4 py-3">⚡ Estimated Time: 5 Seconds</div>
+          <div className="rounded-xl bg-slate-800 px-4 py-3">📦 Output: AI Files</div>
+          <div className="rounded-xl bg-slate-800 px-4 py-3">🔒 Manifest V3 Ready</div>
+        </div>
 
-  <div className="rounded-xl bg-slate-800 px-4 py-3">
-    🔒 Manifest V3 Ready
-  </div>
-</div>
-
-        {/* Main Grid */}
         <div className="grid gap-6 lg:grid-cols-3">
-
-          {/* Left Side */}
           <div className="lg:col-span-2">
-
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -150,281 +170,106 @@ const [progress, setProgress] = useState(0);
                 placeholder="Create a Chrome extension that blocks YouTube Shorts, tracks productivity and generates weekly reports..."
               />
 
-<motion.button
-  onClick={handleGenerate}
-  whileHover={{ scale: 1.03 }}
-  whileTap={{ scale: 0.95 }}
-  className="mt-6 w-full rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 py-4 text-lg font-bold"
->
-  ✨ Generate Extension
-</motion.button>
-{loading && (
-  <div className="mt-6">
-    <div className="mb-2 flex justify-between text-sm">
-      <span>Generating Extension...</span>
-      <span>{progress}%</span>
-    </div>
-
-    <div className="h-3 overflow-hidden rounded-full bg-slate-800">
-      <motion.div
-        initial={{ width: 0 }}
-        animate={{ width: `${progress}%` }}
-        className="h-full bg-gradient-to-r from-indigo-500 to-violet-500"
-      />
-    </div>
-
-    <div className="mt-4 text-sm text-slate-400">
-      {progress < 20 && "Analyzing Requirements..."}
-      {progress >= 20 && progress < 40 && "Generating Manifest..."}
-      {progress >= 40 && progress < 60 && "Creating Content Scripts..."}
-      {progress >= 60 && progress < 80 && "Building Popup UI..."}
-      {progress >= 80 && progress < 100 && "Packaging Extension..."}
-      {progress === 100 && "✅ Extension Generated Successfully"}
-    </div>
-  </div>
-)}
-{loading && (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    className="mt-4 rounded-xl bg-slate-800 p-4"
-  >
-    <p className="text-indigo-400 font-medium">
-      {step}
-    </p>
-  </motion.div>
-)}
-
-        {progress === 100 && (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    className="mt-4 rounded-2xl border border-green-500/20 bg-green-500/10 p-4"
-  >
-    <h3 className="font-semibold text-green-400">
-      AI Confidence Score
-    </h3>
-
-    <p className="mt-2 text-3xl font-bold">
-      96%
-    </p>
-  </motion.div>
-)}  
-{showFiles && (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    className="mt-4 grid gap-4 md:grid-cols-3"
-  >
-    <div className="rounded-2xl bg-slate-800 p-4">
-      <p className="text-slate-400 text-sm">
-        Generation Time
-      </p>
-
-      <h3 className="mt-2 text-2xl font-bold text-indigo-400">
-        4.8s
-      </h3>
-    </div>
-
-    <div className="rounded-2xl bg-slate-800 p-4">
-      <p className="text-slate-400 text-sm">
-        Files Created
-      </p>
-
-      <h3 className="mt-2 text-2xl font-bold text-green-400">
-        6
-      </h3>
-    </div>
-
-    <div className="rounded-2xl bg-slate-800 p-4">
-      <p className="text-slate-400 text-sm">
-        Compatibility
-      </p>
-
-      <h3 className="mt-2 text-2xl font-bold text-violet-400">
-        MV3
-      </h3>
-    </div>
-  </motion.div>
-)}   
-{showFiles && (
-  <button className="mt-4 w-full rounded-2xl bg-green-600 py-4 font-bold hover:bg-green-500 transition">
-    📦 Download Extension ZIP
-  </button>
-)}
- {/* Templates */}
-              <div className="mt-8">
-                <h3 className="mb-4 text-lg font-semibold">
-                  Popular Templates
-                </h3>
-
-                <div className="flex flex-wrap gap-3">
-                  {[
-                    "YouTube Blocker",
-                    "Job Tracker",
-                    "Dark Mode Tool",
-                    "Productivity Booster",
-                    "Price Tracker",
-                    "AI Note Taker",
-                  ].map((item) => (
-                    <button
-                      key={item}
-                      className="rounded-full bg-slate-800 px-4 py-2 transition hover:bg-indigo-600"
-                    >
-                      {item}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Features */}
-            <div className="mt-8 grid gap-6 md:grid-cols-3">
-
-              <motion.div
-                whileHover={{ y: -10, scale: 1.03 }}
-                className="rounded-3xl border border-slate-800 bg-slate-900 p-6"
+              <motion.button
+                onClick={handleGenerate}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.95 }}
+                className="mt-6 w-full rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 py-4 text-lg font-bold"
+                disabled={loading}
               >
-                <Zap className="mb-4 text-yellow-400" />
-                <h3 className="mb-2 font-bold">
-                  Instant Generation
-                </h3>
-                <p className="text-sm text-slate-400">
-                  Generate extension structures instantly.
-                </p>
-              </motion.div>
+                {loading ? 'Generating...' : '✨ Generate Extension'}
+              </motion.button>
 
-              <motion.div
-                whileHover={{ y: -10, scale: 1.03 }}
-                className="rounded-3xl border border-slate-800 bg-slate-900 p-6"
-              >
-                <ShieldCheck className="mb-4 text-green-400" />
-                <h3 className="mb-2 font-bold">
-                  Secure Code
-                </h3>
-                <p className="text-sm text-slate-400">
-                  Clean and secure extension architecture.
-                </p>
-              </motion.div>
-
-              <motion.div
-                whileHover={{ y: -10, scale: 1.03 }}
-                className="rounded-3xl border border-slate-800 bg-slate-900 p-6"
-              >
-                <Wand2 className="mb-4 text-indigo-400" />
-                <h3 className="mb-2 font-bold">
-                  Production Ready
-                </h3>
-                <p className="text-sm text-slate-400">
-                  Built with scalability and deployment in mind.
-                </p>
-              </motion.div>
-
-            </div>
-
-            {/* Preview */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="mt-8 rounded-3xl border border-slate-800 bg-slate-900 p-6"
-            >
-{showFiles ? (
-  <div className="space-y-3">
-    {files.map((file, index) => (
-      <motion.div
-        key={file}
-        initial={{
-          opacity: 0,
-          x: -40,
-        }}
-        animate={{
-          opacity: 1,
-          x: 0,
-        }}
-        transition={{
-          delay: index * 0.2,
-        }}
-        className="flex items-center gap-3 rounded-xl bg-slate-800 p-3"
-      >
-        <FileCode size={18} />
-        {file}
-      </motion.div>
-    ))}
-  </div>
-) : (
-  <p className="text-slate-400">
-    Generate an extension to preview files...
-  </p>
-)}
-              <div className="space-y-3">
-                {[
-                  "manifest.json",
-                  "background.js",
-                  "content.js",
-                  "popup.html",
-                  "popup.css",
-                  "popup.js",
-                ].map((file) => (
-                  <div
-                    key={file}
-                    className="flex items-center gap-3 rounded-xl bg-slate-800 p-3"
-                  >
-                    <FileCode size={18} />
-                    {file}
+              {loading && (
+                <div className="mt-6">
+                  <div className="mb-2 flex justify-between text-sm">
+                    <span>Generating Extension...</span>
+                    <span>{progress}%</span>
                   </div>
-                ))}
+
+                  <div className="h-3 overflow-hidden rounded-full bg-slate-800">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${progress}%` }}
+                      className="h-full bg-gradient-to-r from-indigo-500 to-violet-500"
+                    />
+                  </div>
+
+                  <div className="mt-4 text-sm text-slate-400">{step || 'Working...'}</div>
+                </div>
+              )}
+
+              {showFiles && downloadUrl && (
+                <button
+                  className="mt-4 w-full rounded-2xl bg-green-600 py-4 font-bold hover:bg-green-500 transition"
+                  onClick={() => {
+                    window.location.href = `${API_BASE}${downloadUrl}`;
+                  }}
+                >
+                  📦 Download Extension ZIP
+                </button>
+              )}
+
+              <div className="mt-8 rounded-3xl border border-slate-800 bg-slate-900 p-6">
+                <div className="text-sm text-slate-400 mb-3">Preview</div>
+
+                {previewNames.length ? (
+                  <div className="space-y-3">
+                    {previewNames.map((name, index) => (
+                      <motion.div
+                        key={name + index}
+                        initial={{ opacity: 0, x: -40 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                        className="flex items-center gap-3 rounded-xl bg-slate-800 p-3"
+                      >
+                        <FileCode size={18} />
+                        {name}
+                      </motion.div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-slate-400">Generate an extension to preview files...</p>
+                )}
               </div>
             </motion.div>
-
           </div>
 
-          {/* Right Side */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="rounded-3xl border border-slate-800 bg-slate-900 p-6 h-fit"
-          >
-            <Lightbulb
-              size={28}
-              className="mb-4 text-yellow-400"
-            />
-
-            <h2 className="mb-4 text-xl font-bold">
-              AI Tips
-            </h2>
+          <div className="rounded-3xl border border-slate-800 bg-slate-900 p-6 h-fit">
+            <Lightbulb size={28} className="mb-4 text-yellow-400" />
+            <h2 className="mb-4 text-xl font-bold">AI Tips</h2>
 
             <div className="space-y-4 text-slate-300">
-
-              <div className="rounded-xl bg-slate-800 p-4">
-                Mention the extension purpose clearly.
-              </div>
-
-              <div className="rounded-xl bg-slate-800 p-4">
-                Specify popup UI requirements.
-              </div>
-
-              <div className="rounded-xl bg-slate-800 p-4">
-                Mention API integrations.
-              </div>
-
-              <div className="rounded-xl bg-slate-800 p-4">
-                Define permissions needed.
-              </div>
-
-              <div className="rounded-xl bg-slate-800 p-4">
-                Include storage requirements.
-              </div>
-
+              <div className="rounded-xl bg-slate-800 p-4">Mention the extension purpose clearly.</div>
+              <div className="rounded-xl bg-slate-800 p-4">Specify popup UI requirements.</div>
+              <div className="rounded-xl bg-slate-800 p-4">Mention API integrations.</div>
+              <div className="rounded-xl bg-slate-800 p-4">Define permissions needed.</div>
+              <div className="rounded-xl bg-slate-800 p-4">Include storage requirements.</div>
             </div>
-          </motion.div>
 
+            <div className="mt-8 grid gap-6 md:grid-cols-1">
+              <motion.div whileHover={{ y: -10, scale: 1.03 }} className="rounded-3xl border border-slate-800 bg-slate-900 p-6">
+                <Zap className="mb-4 text-yellow-400" />
+                <h3 className="mb-2 font-bold">Instant Generation</h3>
+                <p className="text-sm text-slate-400">Generate extension structures instantly.</p>
+              </motion.div>
+              <motion.div whileHover={{ y: -10, scale: 1.03 }} className="rounded-3xl border border-slate-800 bg-slate-900 p-6">
+                <ShieldCheck className="mb-4 text-green-400" />
+                <h3 className="mb-2 font-bold">Secure Code</h3>
+                <p className="text-sm text-slate-400">Clean and secure extension architecture.</p>
+              </motion.div>
+              <motion.div whileHover={{ y: -10, scale: 1.03 }} className="rounded-3xl border border-slate-800 bg-slate-900 p-6">
+                <Wand2 className="mb-4 text-indigo-400" />
+                <h3 className="mb-2 font-bold">Production Ready</h3>
+                <p className="text-sm text-slate-400">Built with scalability and deployment in mind.</p>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  
-
   );
 }
 
 export default GenerateExtension;
+

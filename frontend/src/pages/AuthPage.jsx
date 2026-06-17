@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { API_BASE, TOKEN_KEY, USER_KEY } from "../config/api";
+
 function AuthPage() {
   const [mode, setMode] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -12,39 +16,78 @@ function AuthPage() {
     confirmPassword: "",
     remember: false,
   });
-const navigate = useNavigate();
+
+  const navigate = useNavigate();
   const isLogin = mode === "login";
-  const handleSubmit = (event) => {
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setError('');
+
+    if (!formData.email || !formData.password) {
+      setError('Email and password required');
+      return;
+    }
+
+    if (!isLogin && formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
 
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const endpoint = isLogin ? `${API_BASE}/api/auth/login` : `${API_BASE}/api/auth/register`;
+
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          name: isLogin ? undefined : formData.name,
+        }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        setError(data?.error || 'Authentication failed');
+        return;
+      }
+
+localStorage.setItem(TOKEN_KEY, data.token);
+      localStorage.setItem(USER_KEY, JSON.stringify(data.user));
+
+      navigate('/');
+    } catch (e) {
+      setError(e.message || 'Authentication failed');
+    } finally {
       setLoading(false);
-      navigate("/dashboard");
-    }, 1500);
+    }
   };
+
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
-  setFormData((prev) => ({
-    ...prev,
-    [name]: type === "checkbox" ? checked : value,
-  }));
-};
-  
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
   const passwordStrength = formData.password
     ? formData.password.length < 6
       ? "Weak"
       : formData.password.length < 10
-      ? "Medium"
-      : "Strong"
+        ? "Medium"
+        : "Strong"
     : null;
 
   const strengthColor =
     passwordStrength === "Weak"
       ? "bg-red-500"
       : passwordStrength === "Medium"
-      ? "bg-amber-400"
-      : "bg-emerald-400";
+        ? "bg-amber-400"
+        : "bg-emerald-400";
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
@@ -97,9 +140,7 @@ const navigate = useNavigate();
                   <div>
                     <h2 className="text-3xl font-semibold text-white">{isLogin ? "Login" : "Sign Up"}</h2>
                     <p className="mt-2 text-sm text-slate-400">
-                      {isLogin
-                        ? "Enter your credentials to continue."
-                        : "Complete the details below to get started."}
+                      {isLogin ? "Enter your credentials to continue." : "Complete the details below to get started."}
                     </p>
                   </div>
                   <button
@@ -112,6 +153,12 @@ const navigate = useNavigate();
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
+                  {error ? (
+                    <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                      {error}
+                    </div>
+                  ) : null}
+
                   {!isLogin && (
                     <label className="block">
                       <span className="mb-3 block text-sm font-medium text-slate-300">Full name</span>
@@ -260,7 +307,7 @@ const navigate = useNavigate();
                   </div>
                 </div>
 
-                                <p className="mt-8 text-center text-sm text-slate-500">
+                <p className="mt-8 text-center text-sm text-slate-500">
                   {isLogin ? "New here?" : "Already have an account?"}{" "}
                   <button
                     type="button"
@@ -272,14 +319,10 @@ const navigate = useNavigate();
                 </p>
 
                 <div className="mt-4 text-center">
-                  <Link
-                    to="/"
-                    className="text-sm text-slate-500 transition hover:text-slate-300"
-                  >
+                  <Link to="/" className="text-sm text-slate-500 transition hover:text-slate-300">
                     Back to home
                   </Link>
                 </div>
-
               </div>
             </main>
           </div>
@@ -290,3 +333,4 @@ const navigate = useNavigate();
 }
 
 export default AuthPage;
+

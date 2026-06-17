@@ -1,22 +1,52 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { samplePrompts } from "../data/homeData";
+import { API_BASE, TOKEN_KEY } from "../config/api";
 
 function HeroSection() {
+  const navigate = useNavigate();
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) {
+      navigate("/login", { replace: true });
+      return;
+    }
+
     if (!prompt.trim()) {
       alert("Please enter your extension idea");
       return;
     }
 
     setLoading(true);
+    try {
+      const title = "Generated Extension";
+      const res = await fetch(`${API_BASE}/api/extensions/generate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ prompt, title }),
+      });
 
-    setTimeout(() => {
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        alert(data?.error || data?.message || "Failed to generate extension");
+        return;
+      }
+
+      // If backend provides files/downloadUrl, user will handle preview/download elsewhere.
+      // Keep UX simple for now.
+      alert("Extension generated successfully. Check Generate tab for preview/download.");
+      navigate("/generate");
+    } catch (e) {
+      alert(e?.message || "Failed to generate extension");
+    } finally {
       setLoading(false);
-      alert("Later this will connect to backend API");
-    }, 2000);
+    }
   };
 
   return (

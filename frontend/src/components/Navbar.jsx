@@ -2,7 +2,29 @@ import { animateScroll as scroll } from "react-scroll";
 import { Link } from "react-router-dom";
 
 
+import { useMemo, useState } from "react";
+import { API_BASE, TOKEN_KEY } from "../config/api";
+
 function Navbar() {
+  const [token, setToken] = useState(() => {
+    try {
+      return localStorage.getItem(TOKEN_KEY) || ''
+    } catch {
+      return ''
+    }
+  })
+
+  const isLoggedIn = useMemo(() => Boolean(token), [token])
+
+  const handleLogout = () => {
+    try {
+      localStorage.removeItem(TOKEN_KEY)
+      localStorage.removeItem('extensio_user')
+    } catch (e) {}
+    setToken('')
+    window.location.href = '/'
+  }
+
   return (
 <nav className="sticky top-4 z-50 mx-auto w-[95%] rounded-2xl border border-white/10 bg-slate-950/70 shadow-[0_10px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">    
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
@@ -34,27 +56,33 @@ function Navbar() {
         </div>
 
         <div className="flex items-center gap-3">
-          <Link
-            to="/login"
-            className="rounded-xl border border-indigo-400/30 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:scale-[1.05] hover:bg-indigo-500/20 hover:border-indigo-400 hover:text-indigo-300 hover:shadow-[0_5px_20px_rgba(99,102,241,0.4)]"
-          >
-            Login
-          </Link>
-
-          
-    <Link
-      to="/dashboard"
-      className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02]"
-    >
-      Dashboard
-    </Link>
-  
-
-
+          {!isLoggedIn ? (
+            <Link
+              to="/login"
+              className="rounded-xl border border-indigo-400/30 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:scale-[1.05] hover:bg-indigo-500/20 hover:border-indigo-400 hover:text-indigo-300 hover:shadow-[0_5px_20px_rgba(99,102,241,0.4)]"
+            >
+              Login
+            </Link>
+          ) : (
+            <>
+              <Link
+                to="/dashboard"
+                className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02]"
+              >
+                Dashboard
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="rounded-xl border border-indigo-400/30 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:scale-[1.05] hover:bg-indigo-500/20 hover:border-indigo-400 hover:text-indigo-300 hover:shadow-[0_5px_20px_rgba(99,102,241,0.4)]"
+              >
+                Logout
+              </button>
+            </>
+          )}
         </div>
       </div>
     </nav>
-  );
+  )
 }
 
 export default Navbar;

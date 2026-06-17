@@ -11,9 +11,10 @@ import {
   Activity,
 } from "lucide-react";
 import Sidebar from "../Sidebar";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   LineChart,
+
   Line,
   XAxis,
   YAxis,
@@ -25,9 +26,48 @@ import {
   Legend,
 } from "recharts";
 
+
+import { API_BASE, TOKEN_KEY } from "../config/api";
+
+
 function Dashboard() {
   const navigate = useNavigate();
   const [selectedMetric, setSelectedMetric] = useState("users");
+  const [extensions, setExtensions] = useState([]);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem(TOKEN_KEY)
+    if (!token) {
+      navigate('/login', { replace: true })
+      return
+    }
+
+    const fetchMyExtensions = async () => {
+      try {
+        setLoading(true)
+        setError('')
+        const res = await fetch(`${API_BASE}/api/extensions/my`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        const data = await res.json().catch(() => ({}))
+        if (!res.ok) {
+          setError(data?.error || 'Failed to load extensions')
+          return
+        }
+        setExtensions(data.extensions || [])
+      } catch (e) {
+        setError(e.message || 'Failed to load extensions')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchMyExtensions()
+  }, [navigate])
 
   const chartData = [
     { period: "Jan", users: 120, downloads: 90, conversions: 18 },

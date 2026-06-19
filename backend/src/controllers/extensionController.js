@@ -1,15 +1,18 @@
 const { generateExtension: aiGenerate } = require('../services/aiService')
 const { createZip } = require('../services/zipService')
+const { validateAndFix } = require('../services/validateAndFixExtension')
 const Extension = require('../models/Extension')
 const User = require('../models/User')
 const { FREE_PLAN_LIMIT } = require('../config/env')
 const { optionalAuth } = require('../middleware/authMiddleware')
 
 
+
 exports.generateExtension = async (req, res) => {
 
   try {
     const { prompt } = req.body
+
 
     if (!prompt || prompt.trim().length < 10) {
       return res
@@ -39,14 +42,18 @@ exports.generateExtension = async (req, res) => {
 
     const aiResult = await aiGenerate(prompt)
 
+    // Pre-zip validation & auto-fix: ensure manifest referenced assets (icons/popup) exist.
+    // This prevents Chrome "Could not load icon" / "Could not load manifest" errors.
+    const fixedFiles = validateAndFix(aiResult.files)
+
     const extension = await Extension.create({
       userId: userId,
-
       prompt: prompt.trim(),
       title: aiResult.title,
-      files: aiResult.files,
+      files: fixedFiles,
       status: 'generated'
     })
+
 
 
     return res.json({

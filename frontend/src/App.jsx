@@ -6,6 +6,7 @@ import MyExtensions from "./pages/MyExtensions";
 import Analytics from "./pages/Analytics";
 import Settings from "./pages/Settings";
 import Dashboard from "./pages/Dashboard";
+import PricingPage from "./pages/PricingPage";
 import Login from "./pages/Login";
 import AuthPage from "./pages/AuthPage";
 
@@ -23,6 +24,7 @@ function App() {
         <Route path="/extensions" element={<MyExtensions />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/pricing" element={<PricingPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -133,6 +133,7 @@ function ProFeatures() {
             <div className="flex gap-4">
               <motion.button
                 whileHover={{ scale: 1.05 }}
+                onClick={() => (window.location.href = "/pricing")}
                 className="px-6 py-3 rounded-xl bg-white text-black font-semibold"
               >
                 Upgrade Now
@@ -140,6 +141,7 @@ function ProFeatures() {
 
               <motion.button
                 whileHover={{ scale: 1.05 }}
+                onClick={() => (window.location.href = "/pricing")}
                 className="px-6 py-3 rounded-xl border border-white/30 text-white"
               >
                 View Pricing

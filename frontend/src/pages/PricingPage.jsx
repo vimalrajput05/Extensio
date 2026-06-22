@@ -1,8 +1,12 @@
 import { motion } from "framer-motion";
 import { Crown, ShieldCheck, Zap, Rocket, Wand2, Cloud } from "lucide-react";
 import { Star, CheckCircle, Users, Sparkles } from "lucide-react";
+  import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 
 const proFeatures = [
+
   {
     icon: Rocket,
     title: "API-Based Extensions",
@@ -36,12 +40,25 @@ const proFeatures = [
 ];
 
 function PricingPage() {
+  const navigate = useNavigate();
+  
   return (
+    
     <div className="min-h-screen bg-slate-950 text-white">
+      
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(99,102,241,0.22),_transparent_40%),radial-gradient(circle_at_bottom_left,_rgba(168,85,247,0.22),_transparent_40%)]" />
-
         <div className="relative mx-auto max-w-7xl px-6 py-20">
+<motion.button
+  whileHover={{ x: -5 }}
+  whileTap={{ scale: 0.95 }}
+  onClick={() => navigate("/dashboard")}
+  className="mb-8 flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 hover:bg-slate-800 transition"
+>
+  <ArrowLeft size={18} />
+  Back to Dashboard
+</motion.button>
+
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}

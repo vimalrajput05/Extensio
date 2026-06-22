@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Crown, ShieldCheck, Zap, Rocket, Wand2, Cloud } from "lucide-react";
+import { Star, CheckCircle, Users, Sparkles } from "lucide-react";
 
 const proFeatures = [
   {
@@ -56,48 +57,61 @@ function PricingPage() {
               premium capabilities.
             </p>
           </motion.div>
+          <div className="mt-12 grid gap-6 md:grid-cols-4">
+  {[
+    { title: "50K+", sub: "Extensions Generated" },
+    { title: "15K+", sub: "Premium Users" },
+    { title: "98%", sub: "AI Accuracy" },
+    { title: "24/7", sub: "Support" },
+  ].map((item) => (
+    <div
+      key={item.title}
+      className="rounded-3xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-xl"
+    >
+      <h2 className="text-3xl font-bold text-violet-400">
+        {item.title}
+      </h2>
+      <p className="mt-2 text-slate-400">
+        {item.sub}
+      </p>
+    </div>
+  ))}
+</div>
 
           <div className="mt-16 grid gap-8 lg:grid-cols-2">
             {/* Free */}
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="rounded-[30px] border border-white/10 bg-white/5 backdrop-blur-xl p-8"
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl font-bold">Free</h2>
-                  <p className="mt-2 text-sm text-slate-400">For trying the generator</p>
-                </div>
-                <span className="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-white/10 text-slate-200 border border-white/10">
-                  $0
-                </span>
-              </div>
+  whileHover={{ scale: 1.03 }}
+  className="rounded-[30px] border border-indigo-500/20 bg-gradient-to-br from-slate-900 to-slate-800 p-8"
+>
+  <h2 className="text-3xl font-bold">
+    Free Plan
+  </h2>
 
-              <div className="mt-6">
-                <div className="text-4xl font-bold">3</div>
-                <div className="text-slate-400">extensions included</div>
-              </div>
+  <p className="mt-2 text-slate-400">
+    Perfect for beginners
+  </p>
 
-              <ul className="mt-8 space-y-3">
-                {["Basic generation", "Download generated extension files", "Community support"].map(
-                  (t, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-slate-200">
-                      <span className="mt-1 inline-block h-5 w-5 rounded-full bg-emerald-500/15 border border-emerald-500/30" />
-                      <span>{t}</span>
-                    </li>
-                  )
-                )}
-              </ul>
+  <div className="mt-6 text-6xl font-bold text-indigo-400">
+    3
+  </div>
 
-              <div className="mt-8 rounded-2xl bg-black/30 border border-white/10 p-4">
-                <p className="text-sm text-slate-300">
-                  Upgrade to Pro for unlimited extensions and premium features.
-                </p>
-              </div>
-            </motion.div>
+  <p className="text-slate-400">
+    Extensions Included
+  </p>
 
+  <div className="mt-8 space-y-4">
+    <div>✅ Basic Generation</div>
+    <div>✅ Download ZIP Files</div>
+    <div>✅ Community Support</div>
+    <div>❌ Cloud Storage</div>
+    <div>❌ API Integrations</div>
+  </div>
+
+  <button className="mt-8 w-full rounded-2xl bg-slate-700 py-4 font-bold">
+    Current Plan
+  </button>
+</motion.div>
             {/* Pro */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
@@ -108,6 +122,36 @@ function PricingPage() {
               <div className="absolute -top-4 left-8 px-4 py-2 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 text-sm font-semibold border border-white/10">
                 Most Popular
               </div>
+              <motion.div
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 1 }}
+  className="mt-24"
+>
+  <h2 className="mb-10 text-center text-4xl font-bold">
+    Premium Templates
+  </h2>
+
+  <div className="grid gap-6 md:grid-cols-3">
+    {[
+      "YouTube Focus Pro",
+      "AI Study Assistant",
+      "Amazon Price Tracker",
+      "LinkedIn Job Tracker",
+      "Productivity Booster",
+      "AI Note Summarizer",
+    ].map((item) => (
+      <div
+        key={item}
+        className="rounded-3xl border border-white/10 bg-white/5 p-6 hover:scale-105 transition"
+      >
+        <Sparkles className="mb-4 text-violet-400" />
+        <h3 className="font-bold text-xl">
+          {item}
+        </h3>
+      </div>
+    ))}
+  </div>
+</motion.div>
 
               <div className="pt-4 flex items-center justify-between">
                 <div>
@@ -153,9 +197,56 @@ function PricingPage() {
               </div>
             </motion.div>
           </div>
+          <div className="mt-24">
+  <h2 className="mb-10 text-center text-4xl font-bold">
+    Loved By Developers
+  </h2>
+
+  <div className="grid gap-6 md:grid-cols-3">
+    {[1, 2, 3].map((item) => (
+      <div
+        key={item}
+        className="rounded-3xl border border-white/10 bg-white/5 p-6"
+      >
+        <div className="mb-4 flex gap-1">
+          {[1, 2, 3, 4, 5].map((s) => (
+            <Star
+              key={s}
+              size={18}
+              className="fill-yellow-400 text-yellow-400"
+            />
+          ))}
+        </div>
+
+        <p className="text-slate-300">
+          Generated my extension in minutes.
+          Amazing experience.
+        </p>
+
+        <p className="mt-4 text-violet-400">
+          Frontend Developer
+        </p>
+      </div>
+    ))}
+  </div>
+</div>
         </div>
       </div>
+      <div className="mt-24 rounded-[40px] bg-gradient-to-r from-indigo-600 via-violet-600 to-pink-600 p-12 text-center">
+  <h2 className="text-5xl font-bold">
+    Ready To Go Pro? 🚀
+  </h2>
+
+  <p className="mt-4 text-xl text-white/90">
+    Build unlimited AI-powered Chrome extensions.
+  </p>
+
+  <button className="mt-8 rounded-2xl bg-white px-10 py-4 font-bold text-black hover:scale-105 transition">
+    Start Pro Trial
+  </button>
+</div>
     </div>
+    
   );
 }
 
